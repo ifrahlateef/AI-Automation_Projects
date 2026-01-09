@@ -366,7 +366,7 @@ columns_subset_extract=['number', 'user_location', 'dv_u_model_type', 'dv_workfl
 
 
 # In[16]:
-
+# EXPLORATORY DATA ANALYSIS:
 
 df_data_extract=df_data_extract[columns_subset_extract]
 
@@ -2778,4 +2778,5 @@ except Exception as e:
 
 print('Tasks reporting successfully completed!!!!')
 ##############################################################################
+
 
