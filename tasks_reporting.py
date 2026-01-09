@@ -1,10 +1,5 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 # In[1]:
-########## Modified Leavers logic from start
-
-
+# Loading libraries
 import os
 import sys
 print('**************************')
@@ -49,35 +44,15 @@ debug_outputs_dir="debug_outputs/"
 
 
 
-# In[5]:To run the file locally on my Laptop
-
-
-#debug_print_excel=False
-#use_debug_output_dir=False
-
-#if(use_debug_output_dir):
-    #data_warehouse_dir_path="C:\\sctasks\\"
-#else:
-    #data_warehouse_dir_path="C:\\sctasks\\"
-    
-#def print_excel(df,filepath):
-    #global debug_print_excel
-
-    #if(debug_print_excel):
-        #df.to_excel(filepath)
-
-#def print_output(df,phase_nr):
-    #global debug_outputs_dir
-    
-    #print_excel(df,debug_outputs_dir+str(fase_nr)+".xlsx") 
+# In[5]:To run the file on Server
     
 debug_print_excel=False
 use_debug_output_dir=False
 
 if(use_debug_output_dir):
-    data_warehouse_dir_path="C:\\inetpub\\wwwroot\\gws\\gws\\dts_activity_dbg\\files\\"
+    data_warehouse_dir_path="C:\\inetpub\\wwwroot\\gws\\dts_activity_dbg\\files\\"
 else:
-    data_warehouse_dir_path="C:\\inetpub\\wwwroot\\gws\\gws\\dts_activity\\files\\"
+    data_warehouse_dir_path="C:\\inetpub\\wwwroot\\gws\\dts_activity\\files\\"
 
 
 filename_tasks='dts_reporting_tasks'
@@ -103,7 +78,7 @@ if repo_dir not in sys.path:
 
 
 # In[7]:
-
+# Importing my package of libraries
 
 from load_excel import *
 from data_warehouse_connection import *
@@ -174,7 +149,7 @@ def Auto_classification_type(x):
 engine1=connect_to_spark()
 
 with engine1.connect() as con:
-    query='use BS_ITO_CMDATAMART_PRD_001;'
+    query='use database_name;'
     aa=con.execute(query)
 
 
@@ -960,7 +935,7 @@ df1.loc[Covid_Leaver_Admin, 'COVID - Equipment Return'] = str(1)
 # In[50]:
 
 
-#New change for Sky
+#New change
 df1.loc[(df1['dv_workflow'].astype(str).str.startswith("RITM - Sky work setting Request")),'Classification_type']= 'Worksetting Install Support'
                                                                                                                       
 
@@ -1861,7 +1836,6 @@ df6 = df6[columns_subset_extract_2]
 df6
 #df_data_extract=df_data_extract[columns_subset_extract]
 
-#############I removed leaver part here to check
 #merged_df = pd.merge(df5, df_data_extract, on=['number', 'dv_request', 'dv_request_item', 'closed_date', 'key5'])
 #merged_df = pd.merge(df5, df_data_extract, on='number')
 auto_sctask_df = pd.merge(df6, df, on='number')
@@ -1953,14 +1927,14 @@ df_filled = df_filled.append(combined_df).fillna('')
 task_df = pd.concat([auto_sctask_df, df_filled], ignore_index=True)
 
 task_df
-### naya3########################################NEW CHANGE LEAVER
+
 #### Eastablishing connection to spark
 engine2=connect_to_spark()
 
 with engine2.connect() as con:
-    query='use BS_ITO_CMDATAMART_PRD_001;'
+    query='use ServiceNOW;'
     aa=con.execute(query)
-#use BS_ITO_CMDATAMART_PRD_001;
+
     query_names="""
     DROP TABLE if exists ##tmp_u_leaver_device1;
     """
@@ -2043,7 +2017,7 @@ df_data_extract_leavers.loc[(df_data_extract_leavers['description'].astype(str).
 df_data_extract_leavers['dv_u_model_type'] = df_data_extract_leavers['dv_u_model_type'].str.lower()
 df_data_extract_leavers['LVR_state'] = df_data_extract_leavers['LVR_state'].str.lower()
 
-### Check wth Paul
+### Import Libraries(Regular Expression)
 import re
 def rev_model(dv_u_model_type):
     if 'mac' in dv_u_model_type:
@@ -2091,7 +2065,6 @@ else:
 closed_req_df
 
 ########################
-### include this
 # Convert date column to datetime format
 closed_req_df['closed_date'] = pd.to_datetime(closed_req_df['closed_at'])
 
@@ -2348,10 +2321,10 @@ dts_sctasks_df = dts_sctasks_df.sort_values(by='dv_request')
 
 ### The data is exported to the data ware house 
 
-engine=connect_to_developer_data_warehouse()
+engine=connect_to_data_warehouse()
 
 with engine.connect() as con:
-    query='use BusOpsDataWarehouse;'
+    query='use DataWarehouse;'
     aa=con.execute(query)
     query_names="""
     DROP TABLE IF EXISTS DTS_tasks;
@@ -2360,7 +2333,6 @@ with engine.connect() as con:
     #dts_sctasks_df.iloc[7209][:4].to_sql('DTS_tasks', con,chunksize=1, if_exists='replace', index=False)
     #dts_sctasks_df.tail(6000).to_sql('DTS_tasks', con,chunksize=2000, if_exists='replace', index=False)
     dts_sctasks_df.to_sql('DTS_tasks', con,chunksize=2000, if_exists='replace')
-#df_Table5.to_sql('DTS_T5_Activity_Points_Revised', engine, if_exists='replace')
 
 
 df_datawarehouse=dts_sctasks_df
@@ -2375,7 +2347,7 @@ DTS_T5_Activity_Points_Revised
 # In[20]:
 
 
-engine=connect_to_developer_data_warehouse()
+engine=connect_to_data_warehouse()
 
 from sqlalchemy.orm import Session
 from sqlalchemy import Table
@@ -2418,11 +2390,11 @@ mo.Auto_Classification_Override=points.Table_5_Activity_Point_Classification
 '''
 
 # here take info on manual override
-engine=connect_to_developer_data_warehouse()
+engine=connect_to_data_warehouse()
 
 from sqlalchemy.orm import Session
 from sqlalchemy import Table
-result=execute_query(engine, "use BusOpsDataWarehouse;")
+result=execute_query(engine, "use DataWarehouse;")
 
 with Session(engine) as session:
     df_manual_override=pd.read_sql(query_overridden_tasks,session.bind).fillna('')
@@ -2659,7 +2631,7 @@ def save_dataframe(filename,df, sheet_name, savemode=None):
 # In[175]:
 
 ####################################################################################
-# chworking(or)
+# Defining functions
 def save_volume_summary_cp(filename, df_merged, b_group):
     b_group='Corporate'
     pv_tb=pd.pivot_table(df_merged.where(df_merged['Business_group']==b_group),values='Activity_count', index=['Auto_Classification_type','Category','Completion_method'],columns='yearmonth',aggfunc=len, fill_value=0, margins=True, margins_name='Corporate_Vol_Total')
@@ -2687,8 +2659,6 @@ def save_volume_summary_tot_cor(filename, df_merged, b_group):
 
 # In[ ]:
 
-
-# chworking
 def save_volume_summary_cg(filename, df_merged, b_group):
     b_group='CSG'
     pv_tb=pd.pivot_table(df_merged.where(df_merged['Business_group']==b_group),values='Activity_count', index=['Auto_Classification_type','Category','Completion_method'],columns='yearmonth',aggfunc=len, fill_value=0, margins=True, margins_name='CSG_Vol_Total')
@@ -2716,8 +2686,6 @@ def save_volume_summary_tot_csg(filename, df_merged, b_group):
 
 # In[ ]:
 
-
-# working
 def save_points_summary_cp(filename, df_merged, b_group):
     b_group='Corporate'
     pv_tb=pd.pivot_table(df_merged.where(df_merged['Business_group']==b_group),values='Final_Point_Classification', index=['Auto_Classification_type','Category','Completion_method'],columns='yearmonth',aggfunc=sum, fill_value=0, margins=True, margins_name='Corporate_Points_Total')
@@ -2735,8 +2703,6 @@ def save_points_summary_total_cp(filename, df_merged, b_group):
 
 # In[ ]:
 
-
-# working
 def save_points_summary_cg(filename, df_merged, b_group):
     b_group='CSG'
     pv_tb=pd.pivot_table(df_merged.where(df_merged['Business_group']==b_group),values='Final_Point_Classification', index=['Auto_Classification_type','Category','Completion_method'],columns='yearmonth',aggfunc=sum, fill_value=0, margins=True, margins_name='Corporate_Points_Total')
@@ -2752,7 +2718,7 @@ def save_points_summary_total_cg(filename, df_merged, b_group):
 
 
 # In[ ]:
-##Newly added
+
 def save_volume_summary_total(filename, df_merged):
     #b_group='Corporate'
     pv_tb=pd.pivot_table(df_merged,values='Activity_count', index=['Business_group'],columns='yearmonth',aggfunc=np.sum, fill_value=0, margins=True, margins_name='Volume_Total')
@@ -2794,32 +2760,15 @@ try:
 #fullpath=data_warehouse_dir_path+filename_tasks+"_{:%Y_%m_%d}.xlsx".format(datetime.now())
 
     df_merged.to_excel(fullpath, sheet_name='Analysed_Data', index=False)
-    ##Newly added
+    
     save_volume_summary_total(filename=fullpath, df_merged=df_merged)
     save_points_summary_total(filename=fullpath, df_merged=df_merged)
-#save_volume_summary_cp(filename=fullpath, df_merged=df_merged, b_group='Corporate')# more detailed one w.r.t category and completion method
+
     save_volume_summary_tot_cor(filename=fullpath, df_merged=df_merged, b_group='Corporate')
     save_points_summary_total_cp(filename=fullpath, df_merged=df_merged, b_group='Corporate')
 
-#save_volume_summary_cor(filename=fullpath, df_merged=df_merged, b_group='Corporate')
-#save_points_summary_cor(filename=fullpath, df_merged=df_merged, b_group='Corporate')
-
-#save_volume_summary_cg(filename=fullpath, df_merged=df_merged, b_group='CSG') # more deatiled w.r.t category and completion method
     save_volume_summary_tot_csg(filename=fullpath, df_merged=df_merged, b_group='CSG')
     save_points_summary_total_cg(filename=fullpath, df_merged=df_merged, b_group='CSG')
-
-##Newly added
-    #save_volume_summary_total(filename=fullpath, df_merged=df_merged)
-    #save_points_summary_total(filename=fullpath, df_merged=df_merged)
-#save_volume_summary_csg(filename=fullpath, df_merged=df_merged, b_group='CSG')
-#save_points_summary_csg(filename=fullpath, df_merged=df_merged, b_group='CSG')
-### Calling the function
-
-
-
-
-
-
 
 
 except Exception as e:
@@ -2829,3 +2778,4 @@ except Exception as e:
 
 print('Tasks reporting successfully completed!!!!')
 ##############################################################################
+
