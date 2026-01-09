@@ -22,7 +22,7 @@ The solution is built as a modular Python-based ETL (Extract, Transform, Load) p
 
 ### 2. Business Logic & Categorization
 * **Segmented Analysis:** Custom functions categorize tasks based on distinct business environments: **Corporate** vs. **Contact Center**.
-* **Advanced Pattern Matching:** Utilized the `re` (Regular Expression) library to parse unstructured task descriptions and assign accurate classifications.
+* **Advanced Pattern Matching:** Utilized the 're' (Regular Expression) library to parse unstructured task descriptions and assign accurate classifications.
 * **Rolling 12-Month Horizon:** Maintained a dynamic 12-month window to provide stakeholders with year-over-year (YoY) trend analysis and seasonality insights.
 
 ### 3. Financial Engineering (The Activity Point Model)
