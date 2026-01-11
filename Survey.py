@@ -1042,7 +1042,7 @@ pca = PCA(n_components=0.95, random_state=42) # Keep 95% of variance
 X_reduced = pca.fit_transform(X.toarray())
 
 # K-Means Clustering
-# We define 'k' based on how many "themes" we want to find (e.g., 5)
+# We define 'k' based on how number of "themes" 
 k = 5
 model = KMeans(n_clusters=k, init='k-means++', max_iter=100, n_init=10, random_state=42)
 clusters = model.fit_predict(X_reduced)
@@ -1054,7 +1054,17 @@ results_df = pd.DataFrame({
     'Cluster_ID': clusters
 })
 
+# Identify the top terms per cluster
+print("Top terms per cluster:")
+order_centroids = model.cluster_centers_.argsort()[:, ::-1]
+terms = vectorizer.get_feature_names_out()
 
+for i in range(k):
+    print(f"Cluster {i}: ", end='')
+    for ind in order_centroids[i, :5]: # Top 5 words per cluster
+        print(f'{terms[ind]} ', end='')
+    print('\n')
+    
 # ## step 2: simplify the variables, shrink all correlated variables into 1 into each correlation group
 
 # In[ ]:
