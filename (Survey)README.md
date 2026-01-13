@@ -8,7 +8,7 @@ I engineered an **End-to-End AI Pipeline** that automates recipient selection an
 ###  High-Level Impact:
 * **Operational Velocity:** Reduced the analysis and reporting cycle from **1 week to 1 hour** (99% efficiency gain).
 * **Data-Driven Consistency:** Replaced subjective manual reviews with a repeatable, mathematically grounded clustering model.
-* **Democratized AI:** Empowered non-technical HR and Success teams to execute advanced Python-based analytics through a custom-built, "One-Click" interface.
+* **Democratized AI:** Empowered non-technical Customer Success teams to execute advanced Python-based analytics through a custom-built, "One-Click" interface.
 
 ---
 
@@ -30,7 +30,7 @@ To handle the high-volume qualitative feedback, I developed an analytical engine
 ---
 
 ##  Design for Self-Sufficiency (The "One-Click" Solution)
-A key senior-level achievement was making this advanced technology accessible to non-technical Business Delivery and HR teams:
+A key achievement was making this advanced technology accessible to non-technical Business Delivery teams:
 * **CLI Interface:** Built a simplified command-line interface where users can simply drop an Excel file and click **"RUN"** to execute the entire Python backend.
 * **Knowledge Transfer & Literacy:** Facilitated hands-on workshops where I translated technical concepts into business logic (e.g., explaining Clustering as "automated grouping of similar concerns").
 * **User Documentation:** Authored a concise User Guide to ensure 100% self-sufficiency, fostering a culture of technical independence.
