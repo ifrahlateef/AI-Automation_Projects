@@ -2351,7 +2351,7 @@ engine=connect_to_data_warehouse()
 
 from sqlalchemy.orm import Session
 from sqlalchemy import Table
-result=execute_query(engine, "use BusOpsDataWarehouse;")
+result=execute_query(engine, "use DataWarehouse;")
 
 with Session(engine) as session:
     df_categories=pd.read_sql(query_cat,session.bind)
@@ -2778,5 +2778,6 @@ except Exception as e:
 
 print('Tasks reporting successfully completed!!!!')
 ##############################################################################
+
 
 
