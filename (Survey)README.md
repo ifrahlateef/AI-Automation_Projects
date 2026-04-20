@@ -1,4 +1,4 @@
-# Survey Insights AI: Orchestrating Automated NLP & Sentiment Intelligence
+# Survey Insights AI: Automated NLP & Sentiment Intelligence
 
 ## Executive Summary & Strategic Leadership
 Recognizing a critical operational bottleneck in the quarterly survey cycle, I **proactively initiated and spearheaded** the digital transformation of our feedback analysis workflow. Previously, the process relied on manual qualitative review—a tedious task that took over 168 man-hours per quarter and was prone to subjective bias.
@@ -15,7 +15,7 @@ I engineered an **End-to-End AI Pipeline** that automates recipient selection an
 ##  Technical Architecture & Advanced Analytics
 I designed a multi-layered architecture that bridges cloud-scale data movement with local machine learning execution.
 
-### 1. Automated Data Orchestration
+### 1. Automated Data Architecture
 * **Azure Data Factory (ADF):** Engineered a robust pipeline to ingest raw survey responses from diverse sources into a centralized environment.
 * **Power Automate Integration:** Developed a seamless trigger flow to manage data movement and stakeholder notifications.
 * **Intelligent Recipient Logic:** Designed and deployed a custom algorithm to programmatically identify and select target survey participants for each quarterly cycle.
